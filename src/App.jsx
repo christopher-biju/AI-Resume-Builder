@@ -8,7 +8,7 @@ import Downloads from './pages/Downloads'
 import Pnf from './pages/Pnf'
 import Header from './components/Header'
 import Footer from './components/Footer'
-
+import Saved from "./pages/Saved";
 function App() {
 
   return (
@@ -18,8 +18,9 @@ function App() {
         <Route path='/' element={<Home />}/>
         <Route path='/resume' element={<Resume />}/>
         <Route path='/resume-details' element={<Info />}/>
-        <Route path='/all-resume' element={<View />}/>
-        <Route path='/resume/:id' element={<Downloads />}/>
+        <Route path='/all-resume' element={<Saved />}/>
+        <Route path='/resume/:id' element={<View />}/>
+        <Route path='/downloads' element={<Downloads />}/>
         <Route path='/*' element={<Pnf />}/>
       </Routes>
       <Footer />

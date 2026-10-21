@@ -8,7 +8,7 @@ function Resume() {
     <div>
       <div style={{ height: '100vh' }} className="container">
         <h1 className='text-center pt-5 pb-2'>Create An ATS Friend Resume In Minutes With AI</h1>
-        <div className="container">
+        <div className="container my-4">
           <div className="row pt-5">
 
             <div className="col-lg-1"></div>

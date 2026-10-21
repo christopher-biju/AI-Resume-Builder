@@ -5,6 +5,11 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { TextField } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const steps = ['Basic Informations', 'Contact Details', 'Educational Details', 'Review & Submit'];
 
@@ -24,18 +29,38 @@ function Resumeinput() {
       case 0: return (
         <div>
           <h3>Personal Details</h3>
+          <TextField className='container-fluid mt-2' id="standard-basic-fullname" label="Full Name" variant="standard" />
+          <TextField className='container-fluid my-4' id="standard-basic-loc" label="Location" variant="standard" />
+          <FormControl variant="standard" className='container-fluid mb-5'>
+            <InputLabel id="demo-simple-select-label">Choose Job Title</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="job"
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+            </Select>
+          </FormControl>
         </div>
       )
         break;
       case 1: return (
         <div>
           <h3>Contact Details</h3>
+          <TextField className='container-fluid mt-2' id="standard-basic-email" label="Email" variant="standard" />
+          <TextField className='container-fluid my-4' id="standard-basic-contnum" label="Contact Number" variant="standard" />
+          <TextField className='container-fluid' id="standard-basic-linkd" label="Linkedin Link" variant="standard" />
+          <TextField className='container-fluid mt-4 mb-5' id="standard-basic-github" label="Github Link" variant="standard" />
         </div>
       )
         break;
       case 2: return (
         <div>
           <h3>Educational Details</h3>
+          <TextField className='container-fluid mt-2' id="standard-basic-degree" label="Bachelor's Degree" variant="standard" />
+          <TextField className='container-fluid my-4' id="standard-basic-ucname" label="University / College Name" variant="standard" />
+          <TextField className='container-fluid mb-5' id="standard-basic-yog" label="Year Of Graduate" variant="standard" />
         </div>
       )
         break;

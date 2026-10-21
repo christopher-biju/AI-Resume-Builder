@@ -18,8 +18,8 @@ function Footer() {
 
         <div className="col-lg-4 text-end">
           <h2 className='pe-3'>Contact Us</h2>
-          <p><MdEmail className='pe-2'/>resume@gmail.com</p>
-          <p className='pe-5'><FaPhoneAlt className='pe-2'/>7639236103</p>
+          <p><MdEmail className='me-2'/>resume@gmail.com</p>
+          <p className='pe-5'><FaPhoneAlt className='me-2'/>7639236103</p>
           <h4>Connect With Us</h4>
           <div className='fs-5 pe-4'>
             <FaInstagram className='' />
