@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -10,11 +11,19 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import jobRole from "../assets/jobRole.json";
+import jobSkills from "../assets/jobSkills.json";
+import summaries from "../assets/summaries.json";
 
 const steps = ['Basic Informations', 'Contact Details', 'Educational Details', 'Review & Submit'];
 
-function Resumeinput() {
+function Resumeinput({resumeDetails, setResumeDetails}) {
+
   const [activeStep, setActiveStep] = React.useState(0);
+
+  // useEffect(() => {
+  console.log(resumeDetails);
+  // }, [resumeDetails]);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -29,17 +38,20 @@ function Resumeinput() {
       case 0: return (
         <div>
           <h3>Personal Details</h3>
-          <TextField className='container-fluid mt-2' id="standard-basic-fullname" label="Full Name" variant="standard" />
-          <TextField className='container-fluid my-4' id="standard-basic-loc" label="Location" variant="standard" />
+          <TextField value={resumeDetails.fullname} onChange={e => setResumeDetails({ ...resumeDetails, fullname: e.target.value })} className='container-fluid mt-2' id="standard-basic-fullname" label="Full Name" variant="standard" />
+          <TextField value={resumeDetails.location} onChange={e => setResumeDetails({ ...resumeDetails, location: e.target.value })} className='container-fluid my-4' id="standard-basic-loc" label="Location" variant="standard" />
           <FormControl variant="standard" className='container-fluid mb-5'>
             <InputLabel id="demo-simple-select-label">Choose Job Title</InputLabel>
-            <Select
+            <Select onChange={e => setResumeDetails({ ...resumeDetails, job: e.target.value })}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="job"
             >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
+              {
+                jobRole.jobRoles.map(job => (
+                  <MenuItem key={job} value={job}>{job}</MenuItem>
+                ))
+              }
             </Select>
           </FormControl>
         </div>
@@ -48,19 +60,19 @@ function Resumeinput() {
       case 1: return (
         <div>
           <h3>Contact Details</h3>
-          <TextField className='container-fluid mt-2' id="standard-basic-email" label="Email" variant="standard" />
-          <TextField className='container-fluid my-4' id="standard-basic-contnum" label="Contact Number" variant="standard" />
-          <TextField className='container-fluid' id="standard-basic-linkd" label="Linkedin Link" variant="standard" />
-          <TextField className='container-fluid mt-4 mb-5' id="standard-basic-github" label="Github Link" variant="standard" />
+          <TextField value={resumeDetails.email} onChange={e => setResumeDetails({ ...resumeDetails, email: e.target.value })} className='container-fluid mt-2' id="standard-basic-email" label="Email" variant="standard" />
+          <TextField value={resumeDetails.phone} onChange={e => setResumeDetails({ ...resumeDetails, phone: e.target.value })} className='container-fluid my-4' id="standard-basic-contnum" label="Contact Number" variant="standard" />
+          <TextField value={resumeDetails.linkedin} onChange={e => setResumeDetails({ ...resumeDetails, linkedin: e.target.value })} className='container-fluid' id="standard-basic-linkedin" label="Linkedin Link" variant="standard" />
+          <TextField value={resumeDetails.github} onChange={e => setResumeDetails({ ...resumeDetails, github: e.target.value })} className='container-fluid mt-4 mb-5' id="standard-basic-github" label="Github Link" variant="standard" />
         </div>
       )
         break;
       case 2: return (
         <div>
           <h3>Educational Details</h3>
-          <TextField className='container-fluid mt-2' id="standard-basic-degree" label="Bachelor's Degree" variant="standard" />
-          <TextField className='container-fluid my-4' id="standard-basic-ucname" label="University / College Name" variant="standard" />
-          <TextField className='container-fluid mb-5' id="standard-basic-yog" label="Year Of Graduate" variant="standard" />
+          <TextField value={resumeDetails.degree} onChange={e => setResumeDetails({ ...resumeDetails, degree: e.target.value })} className='container-fluid mt-2' id="standard-basic-degree" label="Bachelor's Degree" variant="standard" />
+          <TextField value={resumeDetails.college} onChange={e => setResumeDetails({ ...resumeDetails, college: e.target.value })} className='container-fluid my-4' id="standard-basic-ucname" label="University / College Name" variant="standard" />
+          <TextField value={resumeDetails.year} onChange={e => setResumeDetails({ ...resumeDetails, year: e.target.value })} className='container-fluid mb-5' id="standard-basic-yog" label="Year Of Graduate" variant="standard" />
         </div>
       )
         break;
@@ -70,13 +82,16 @@ function Resumeinput() {
         </div>
       )
         break;
-
       default:
         break;
     }
   };
 
-
+  const generateSkills = () => {
+    setResumeDetails({...resumeDetails,skills:jobSkills[resumeDetails.job],summary:summaries[resumeDetails.job]})
+    handleNext()
+  }
+  
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -105,14 +120,12 @@ function Resumeinput() {
       ) : (
         <React.Fragment>
           <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-
           <Box>
             {/* render form  according to the active step*/}
             {
               renderFormCount(activeStep)
             }
           </Box>
-
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -123,14 +136,11 @@ function Resumeinput() {
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-
-
             {activeStep === steps.length - 1
               ?
-              <Button>Generate AI Skill & Summary</Button>
+              <Button onClick={generateSkills}>Generate AI Skill & Summary</Button>
               :
               <Button onClick={handleNext}>Next</Button>}
-
           </Box>
         </React.Fragment>
       )}
