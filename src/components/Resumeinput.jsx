@@ -14,16 +14,20 @@ import Select from '@mui/material/Select';
 import jobRole from "../assets/jobRole.json";
 import jobSkills from "../assets/jobSkills.json";
 import summaries from "../assets/summaries.json";
+import { toast } from 'react-toastify';
+import {saveResumeApi} from '../service/apiService'
+import { useNavigate } from 'react-router-dom';
 
 const steps = ['Basic Informations', 'Contact Details', 'Educational Details', 'Review & Submit'];
 
-function Resumeinput({resumeDetails, setResumeDetails}) {
+function Resumeinput({ resumeDetails, setResumeDetails }) {
+
+  const navigate = useNavigate()
+
 
   const [activeStep, setActiveStep] = React.useState(0);
 
-  // useEffect(() => {
-  console.log(resumeDetails);
-  // }, [resumeDetails]);
+  //console.log(resumeDetails);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -88,10 +92,27 @@ function Resumeinput({resumeDetails, setResumeDetails}) {
   };
 
   const generateSkills = () => {
-    setResumeDetails({...resumeDetails,skills:jobSkills[resumeDetails.job],summary:summaries[resumeDetails.job]})
+    setResumeDetails({ ...resumeDetails, skills: jobSkills[resumeDetails.job], summary: summaries[resumeDetails.job] })
     handleNext()
   }
-  
+
+  const handleSavedResume = async () => {
+    //make api call to save resume whenever the finish button clicks
+    const { fullname, location, job, phone, email, github, linkedin, degree, college } = resumeDetails
+
+    if (fullname && location && job && phone && email && github && linkedin && degree && college) {
+      const response = await saveResumeApi(resumeDetails)
+      console.log(response);
+      toast.success("Resume Builded successfully")
+      const resumeId = response.data.id
+      navigate(`/resume/${resumeId}`)
+
+    }
+    else {
+      toast.warning("please fill the form completely !")
+    }
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
@@ -112,7 +133,7 @@ function Resumeinput({resumeDetails, setResumeDetails}) {
           </Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Box sx={{ flex: '1 1 auto' }} />
-            <Button>
+            <Button onClick={handleSavedResume}>
               Finish
             </Button>
           </Box>
