@@ -19,3 +19,8 @@ export const getAllResumeApi = async () => {
 export const deleteAllResumeApi = async (resumeId) => {
     return await axiosService("DELETE",`/resumes/${resumeId}`,{})
 }
+
+export const updatedResumeApi = async (resumeId) => {
+    return await axiosService("DELETE",`/resumes/${resumeId}`,{})
+}
+

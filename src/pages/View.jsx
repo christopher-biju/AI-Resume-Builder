@@ -32,7 +32,7 @@ function View() {
             {/* Download */}
             <Button style={{ color: '#5f2322' }} className='btn me-2 align-items-center'><FaFileDownload className='me-1 fs-4' />Download CV</Button>
             {/* Edit */}
-            <Edit />
+            <Edit resumeDetails={resume} setResumeDetails={setResume}/>
 
             {/* all resume */}
             {/* <Link style={{ color: '#5f2322' }} to={'/all-resume'} className='btn me-2 align-items-center'><FaExternalLinkAlt className='me-1 fs-5' />All Resume</Link> */}

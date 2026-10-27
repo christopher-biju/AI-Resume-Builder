@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FaSearch, FaTrash } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { getAllResumeApi } from '../service/apiService'
@@ -9,23 +9,30 @@ function Saved() {
   const [allResume, setAllResume] = useState([])
   console.log(allResume);
 
+  const [demoResume, demoAllResume] = useState([])
+
   const [searchItem, setSearchItem] = useState("")
   console.log(searchItem)
 
   const searchCandidate = () => {
-    setAllResume(allResume.filter(item => item.job.toLowerCase().includes(searchItem.toLowerCase())))
+    setAllResume(demoResume.filter(item => item.job.toLowerCase().includes(searchItem.toLowerCase())))
   }
 
   const getAllResume = async () => {
     const response = await getAllResumeApi()
     if (response.status == 200) {
       setAllResume(response.data)
+      demoAllResume(response.data)
     }
   }
 
   useEffect(() => {
     searchItem == "" ? getAllResume() : searchCandidate()
   }, [searchItem])
+
+  // useMemo(()=>{
+  //   setAllResume(demoResume.filter(item => item.job.toLowerCase().includes(searchItem.toLowerCase())))
+  // }, [searchItem])
 
   const removeResume = async (id) => {
     if (confirm("Are you sure do you want to delete this resume")) {
