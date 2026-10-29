@@ -15,7 +15,7 @@ import jobRole from "../assets/jobRole.json";
 import jobSkills from "../assets/jobSkills.json";
 import summaries from "../assets/summaries.json";
 import { toast } from 'react-toastify';
-import {saveResumeApi} from '../service/apiService'
+import { saveResumeApi } from '../service/apiService'
 import { useNavigate } from 'react-router-dom';
 
 const steps = ['Basic Informations', 'Contact Details', 'Educational Details', 'Review & Submit'];
@@ -98,9 +98,9 @@ function Resumeinput({ resumeDetails, setResumeDetails }) {
 
   const handleSavedResume = async () => {
     //make api call to save resume whenever the finish button clicks
-    const { fullname, location, job, phone, email, github, linkedin, degree, college } = resumeDetails
+    const { fullname, location, job, phone, email, github, linkedin, degree, college, year, skills, summary } = resumeDetails
 
-    if (fullname && location && job && phone && email && github && linkedin && degree && college) {
+    if (fullname && location && job && phone && email && github && linkedin && degree && college && year && skills.length > 0 && summary) {
       const response = await saveResumeApi(resumeDetails)
       console.log(response);
       toast.success("Resume Builded successfully")

@@ -8,6 +8,7 @@ import { FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/mater
 import { FaXmark } from 'react-icons/fa6';
 import jobRole from "../assets/jobRole.json";
 import { toast } from 'react-toastify';
+import { updatedResumeApi } from '../service/apiService'
 
 const style = {
   position: 'absolute',
@@ -29,21 +30,11 @@ function Edit({ resumeDetails, setResumeDetails }) {
   const handleClose = () => setOpen(false);
   const skillref = React.useRef()
 
-  // const handleSavedResume = async () => {
-  //   //make api call to save resume whenever the finish button clicks
-  //   const { fullname, location, job, phone, email, github, linkedin, degree, college } = resumeDetails
-
-  //   if (fullname && location && job && phone && email && github && linkedin && degree && college) {
-  //     const response = await saveResumeApi(resumeDetails)
-  //     console.log(response);
-  //     toast.success("Resume Updated successfully")
-  //   }
-  // }
 
   const removeSkill = (skill) => {
     setResumeDetails({ ...resumeDetails, skills: resumeDetails.skills.filter(item => item != skill) })
   }
-  
+
   const addNewSkill = (newskill) => {
     if (newskill) {
       if (resumeDetails?.skills?.map(item => item.toLowerCase()).includes(newskill.toLowerCase())) {
@@ -59,8 +50,23 @@ function Edit({ resumeDetails, setResumeDetails }) {
     }
   }
 
-
-
+  const updateResume = async () => {
+    //make api call to update resume whenever the finish button clicks
+    const { fullname, location, job, phone, email, github, linkedin, degree, college, year, skills, summary } = resumeDetails
+    if (fullname && location && job && phone && email && github && linkedin && degree && college && year && skills.length > 0 && summary) {
+      const response = await updatedResumeApi(resumeDetails.id, resumeDetails)
+      // console.log(response);
+      if (response.status == 200) {
+        toast.success("Resume updated successfully")
+        setTimeout(() => {
+          handleClose()
+        }, 2500);
+      }
+    }
+    else {
+      toast.warning("please fill the form completely !")
+    }
+  }
 
   return (
     <div>
@@ -137,7 +143,7 @@ function Edit({ resumeDetails, setResumeDetails }) {
               </dir>
             </div>
             {/* update button */}
-            <button className='btn btn-primary'>Update CV</button>
+            <button onClick={updateResume} className='btn btn-primary'>Update CV</button>
           </Box>
         </Box>
       </Modal>

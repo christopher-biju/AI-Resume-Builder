@@ -30,10 +30,6 @@ function Saved() {
     searchItem == "" ? getAllResume() : searchCandidate()
   }, [searchItem])
 
-  // useMemo(()=>{
-  //   setAllResume(demoResume.filter(item => item.job.toLowerCase().includes(searchItem.toLowerCase())))
-  // }, [searchItem])
-
   const removeResume = async (id) => {
     if (confirm("Are you sure do you want to delete this resume")) {
       const response = await deleteAllResumeApi(id)
