@@ -20,8 +20,7 @@ export const deleteAllResumeApi = async (resumeId) => {
     return await axiosService("DELETE",`/resumes/${resumeId}`,{})
 }
 
-//update when update button ic clicked
+//update when update button is clicked
 export const updatedResumeApi = async (resumeId,resumeDetails) => {
     return await axiosService("PUT",`/resumes/${resumeId}`,resumeDetails)
 }
-
