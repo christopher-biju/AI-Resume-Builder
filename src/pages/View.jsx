@@ -5,9 +5,10 @@ import { Button } from '@mui/material'
 import { FaBackward, FaExternalLinkAlt, FaFileDownload } from 'react-icons/fa'
 import { Link, useParams } from 'react-router-dom'
 import { IoMdRefresh } from 'react-icons/io'
-import { viewResumeApi } from '../service/apiService'
+import { downloadResumeApi, viewResumeApi } from '../service/apiService'
 import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
+import { toast } from 'react-toastify'
 
 
 function View() {
@@ -28,14 +29,39 @@ function View() {
     getResumeDetails()
   }, [])
 
-  const generatepdf = async () => {
+  const downloadcv = async () => {
     const PreviewTag = prevref.current
     const canvas = await html2canvas(PreviewTag)
+    canvas.toBlob(async (imgFile) => {
+      //create form data to sent file via api
+      const formData = new FormData()
+      formData.append("file", imgFile)
+      formData.append("upload_preset", "resumeBuilder")
+      const result = await fetch("https://api.cloudinary.com/v1_1/ockz5ozx/image/upload", {
+        method: "POST",
+        body: formData
+      })
+      const serverData = await result.json()
+      const url = serverData.secure_url
+      console.log(url);
+      generatepdf(url)
+    });
+  }
+
+  const generatepdf = async (resumeurl) => {
     const pdf = new jsPDF()
     const imageHeight = pdf.internal.pageSize.getHeight()
     const imageWidth = pdf.internal.pageSize.getWidth()
-    pdf.addImage(canvas, "PNG", 0, 0, imageWidth, imageHeight)
-    pdf.save("resume.pdf")
+    pdf.addImage(resumeurl, "PNG", 0, 0, imageWidth, imageHeight)
+    const today = new Date()
+    console.log(today);
+    const timeStamp = `${today.toLocaleDateString()}, ${today.toLocaleTimeString()}`
+    console.log(timeStamp);
+    const result = await downloadResumeApi({ timeStamp, resumeurl, resumeid: resume.id, jobrole: resume.job })
+    if (result.status == 201){
+      // to download pdf to pc of lap
+      //pdf.save(`${resume.fullname}_CV.pdf`)
+    }
   }
 
   return (
@@ -45,7 +71,7 @@ function View() {
         <div className="col-lg-8">
           <div className='d-flex justify-content-center align-items-center '>
             {/* Download */}
-            <Button onClick={generatepdf} style={{ color: '#5f2322' }} className='btn me-2 align-items-center'><FaFileDownload className='me-1 fs-4' />Download CV</Button>
+            <Button onClick={downloadcv} style={{ color: '#5f2322' }} className='btn me-2 align-items-center'><FaFileDownload className='me-1 fs-4' />Download CV</Button>
 
             {/* Edit */}
             <Edit resumeDetails={resume} setResumeDetails={setResume} />

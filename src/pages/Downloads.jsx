@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { getDownloadResumeApi } from '../service/apiService'
 
 function Downloads() {
+
+  const [downloadList, getdowloads] = useState([])
+  console.log(downloadList);
+
+  const getAllDownloads = async () => {
+    const result = await getDownloadResumeApi()
+    getdowloads(result.data)
+  }
+
+  useEffect(() => {
+    getAllDownloads()
+  }, [])
+
   return (
     <div className='container my-5 '>
       <div className='d-flex justify-content-between align-items-center'>
@@ -11,14 +25,21 @@ function Downloads() {
       </div>
       <div className='row my-5'>
         {/* Duplicate the row according to the resume count */}
-        <div className="col-lg-4">
-          <div style={{height:'385px'}} className='rounded shadow p-3'> {/*height=350 line 18:w-50  */}
-            <h6>Review at : Time Stamp</h6>
-            <div className='mt-3 text-center'>
-              <Link to={'/resume/:id'}><img className='w-75'  src="https://cdn.venngage.com/template/thumbnail/small/8df44329-87c2-4907-801d-8f335745a2b0.webp" alt="cv image" /></Link>
-            </div>
-          </div>
-        </div>
+        {
+          downloadList.length > 0 ?
+            downloadList.map(item => (
+              <div className="col-lg-4 my-4">
+                <div style={{ height: '385px' }} className='rounded shadow p-3'> {/*height=350 line 18:w-50  */}
+                  <h6>Review at : {item?.timeStamp}</h6>
+                  <div className='mt-3 text-center'>
+                    <Link to={`/resume/${item?.resumeid}`}><img className='w-75' src={item?.resumeurl} alt="cv image" /></Link>
+                  </div>
+                </div>
+              </div>
+            ))
+            :
+            <p>NO DOWNLOADED RESUME</p>
+        }
       </div>
     </div>
   )

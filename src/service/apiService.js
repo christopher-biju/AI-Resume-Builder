@@ -24,3 +24,13 @@ export const deleteAllResumeApi = async (resumeId) => {
 export const updatedResumeApi = async (resumeId,resumeDetails) => {
     return await axiosService("PUT",`/resumes/${resumeId}`,resumeDetails)
 }
+
+/// download resume api : called by view page when download button clicks
+export  const downloadResumeApi = async (resumeDetails) => {
+    return await axiosService("POST","/downloads",resumeDetails)
+}
+
+/// download resume api : called by view page when download button clicks
+export  const getDownloadResumeApi = async () => {
+    return await axiosService("GET","/downloads",{})
+}
