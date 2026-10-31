@@ -43,7 +43,7 @@ function Downloads() {
     labels: lable,
     datasets: [
       {
-        label: 'Download Count',
+        label: 'Download Count ',
         data: value,
         backgroundColor,
         borderWidth: 1,
@@ -77,7 +77,7 @@ function Downloads() {
         <h3 >Downloaded Resume History</h3>
         <Button onClick={setOpen} className='btn text-light' style={{ backgroundColor: '#5f2322' }}>View in chart</Button>
       </div>
-      <p className='mt-3 fs-3 fw-semibold text-dark'>Total Downloaded resumes from our site : <span className='fw-bolder text-danger'>{downloadList.length}</span></p>
+      <p className='mt-3 fs-3 fw-semibold text-dark'>Total Downloaded resumes : <span className='fw-bolder text-danger'>{downloadList.length}</span></p>
       <div className='row my-5'>
         {/* Duplicate the row according to the resume count */}
         {

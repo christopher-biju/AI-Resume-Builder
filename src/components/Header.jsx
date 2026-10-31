@@ -31,7 +31,7 @@ function Header() {
                     </Typography>
 
                     <Link to={'/all-resume'} className='text-light text-decoration-none'>All Resume</Link>
-                    <Link to={'/downloads'} className='mx-3 text-light text-decoration-none'>download History</Link>
+                    <Link to={'/downloads'} className='mx-3 text-light text-decoration-none'>Download History</Link>
 
                     <Tooltip title={title}>
                         <Button color="inherit">About Us</Button>

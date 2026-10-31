@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:3000",
-    timeout: 5000,
+    baseURL: "https://rbuilder-server-9cvr.onrender.com",
+    timeout: 10000,
 
 })
 
@@ -21,14 +21,14 @@ axiosInstance.interceptors.response.use(
             } else if (status == 404) {
                 console.log("resource not found");
             } else if (status == 500) {
-                console.log("server error");                
-            }else{
-                console.log("HTTP error",status);                
+                console.log("server error");
+            } else {
+                console.log("HTTP error", status);
             }
-        }else if(error.request){
-            console.log("no response from server");            
-        }else{
-            console.log("error",error.message);            
+        } else if (error.request) {
+            console.log("no response from server");
+        } else {
+            console.log("error", error.message);
         }
         return Promise.reject(error)
     }
